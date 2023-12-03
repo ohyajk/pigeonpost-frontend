@@ -1,10 +1,10 @@
 import React from "react"
-import { NavLink, useLocation } from "react-router-dom"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import Cookies from "js-cookie"
 const Header = () => {
     const paths = ["/register", "/login", "/verify", "/onboard"]
     const location = useLocation()
-    console.log(location.pathname)
+    const navigate = useNavigate()
 
     if (paths.includes(location.pathname)) {
         return null
@@ -15,6 +15,7 @@ const Header = () => {
         Cookies.remove("id")
         Cookies.remove("isVerified")
         Cookies.remove("isFilled")
+        navigate("/login")
     }
 
     return (
@@ -23,24 +24,24 @@ const Header = () => {
                 <img className='h-20 ' src='./logo.svg' alt='logo' />
                 <ul className='text-xl font-bold flex gap-8 items-center'>
                     <NavLink to='/' className={({ isActive }) => `${isActive ? "text-sky-400" : ""} flex gap-2 items-center hover:text-sky-400`}>
-                        <i class='fa-solid fa-house'></i>
+                        <i className='fa-solid fa-house'></i>
                         <li>HOME</li>
                     </NavLink>
                     <NavLink to='/search' className={({ isActive }) => `${isActive ? "text-sky-400" : ""} flex gap-2 items-center hover:text-sky-400`}>
-                        <i class='fa-solid fa-magnifying-glass'></i>
+                        <i className='fa-solid fa-magnifying-glass'></i>
                         <li>SEARCH</li>
                     </NavLink>
                     <NavLink to='/new' className={({ isActive }) => `${isActive ? "text-sky-400" : ""} flex gap-2 items-center hover:text-sky-400`}>
-                        <i class='fa-solid fa-pen-to-square'></i>
+                        <i className='fa-solid fa-pen-to-square'></i>
                         <li>NEW POST</li>
                     </NavLink>
                     <NavLink to='/profile' className={({ isActive }) => `${isActive ? "text-sky-400" : ""} flex gap-2 items-center hover:text-sky-400`}>
-                        <i class='fa-solid fa-user'></i>
+                        <i className='fa-solid fa-user'></i>
                         <li>MY PROFILE</li>
                     </NavLink>
                 </ul>
                 <button onClick={clearCookies} className='text-xl font-bold flex gap-2 items-center hover:text-sky-400'>
-                    <i class='fa-solid fa-right-from-bracket'></i>
+                    <i className='fa-solid fa-right-from-bracket'></i>
                     <span>LOGOUT</span>
                 </button>
             </nav>

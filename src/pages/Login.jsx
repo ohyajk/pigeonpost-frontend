@@ -40,19 +40,16 @@ const Login = () => {
             console.log(data)
             if (res.status === 200) {
                 const { token, isVerified, isFilled, id } = data
-                Cookies.set("token", token, { expires: 7 })
-                Cookies.set("isVerified", JSON.parse(isVerified))
-                Cookies.set("isFilled", JSON.parse(isFilled))
-                Cookies.set("id", id)
-
-                toast.success("Successfully Logged In!", {
-                    position: toast.POSITION.TOP_CENTER,
-                })
+                const expirationDate = new Date(new Date().getTime() + 60 * 60000)
+                Cookies.set("token", token, { expires: expirationDate })
+                Cookies.set("isVerified", JSON.parse(isVerified), { expires: expirationDate })
+                Cookies.set("isFilled", JSON.parse(isFilled), { expires: expirationDate })
+                Cookies.set("id", id, { expires: expirationDate })
                 setEmail("")
                 setPass("")
                 navigate("/")
-            } else if (data.error && data.error.code == 11000) {
-                toast.error("Invalid Credentials!", {
+            } else if (res.status === 401) {
+                toast.error("Invalid Credentials !", {
                     position: toast.POSITION.TOP_CENTER,
                 })
                 setEmail("")
@@ -61,6 +58,11 @@ const Login = () => {
             setLoading(false)
         } catch (error) {
             console.log(error)
+            toast.error("Server Error !", {
+                position: toast.POSITION.TOP_CENTER,
+            })
+            setEmail("")
+            setPass("")
             setLoading(false)
         }
     }
